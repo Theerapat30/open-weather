@@ -32,6 +32,12 @@ val fontFamilySelected = latoFamily
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    headlineLarge = TextStyle(
+        fontFamily = fontFamilySelected,
+        fontWeight = FontWeight.Normal,
+        fontSize = 36.sp,
+        lineHeight = 40.sp,
+    ),
     headlineMedium = TextStyle(
         fontFamily = fontFamilySelected,
         fontWeight = FontWeight.Normal,

@@ -5,32 +5,11 @@ import com.trp.open_weather.model.Rain
 import com.trp.open_weather.model.Temp
 import com.trp.open_weather.model.Wind
 
-val dummyWeatherData = Weather(
-    lat = -0.1246,
-    long = 51.5085,
-    weatherMoreInfos = listOf(WeatherMoreInfo(
-        groupId = 500,
-        groupName = "Rain",
-        description = "light rain",
-        iconName = "10d"
-    )),
-    temp = 279.63,
-    tempMax = 280.47,
-    tempMin = 278.49,
-    tempFeelsLike = 275.33,
-    windSpeed = 7.72,
-    windDegree = 330,
-    timezone = 0,
-    locationName = "London",
-    pressure = 1016,
-    humidity = 87
-)
-
 val tempDummy = Temp(
-    temp = 14.0,
+    temp = 14.5,
     tempFeels = 15.0,
-    maxTemp = 18.0,
-    minTemp = 12.0
+    tempMax = 18.0,
+    tempMin = 12.0
 )
 
 val windDummy = Wind(
@@ -52,9 +31,6 @@ val weatherDummy = com.trp.open_weather.model.Weather(
     mainWeather = "",
     weatherDesc = "",
     wind = windDummy,
-    rain = rainDummy,
+//    rain = rainDummy,
     clouds = clouds
 )
-
-
-

@@ -39,6 +39,12 @@ val Black = Color(0xFFFFFFFF)
 val AlertColor = Color(0xFFC9342A)
 val WarningColor = Color(0xFFF4CE14)
 
+val PrimaryColor = White
+
+val PrimaryFontColor = White
+val SecondaryFontColor = Black
+
+
 val SunnyGradientColor = listOf(SunnyColor, SunnySoftColor)
 val WindyGradientColor = listOf(WindyColor, WindySoftColor)
 

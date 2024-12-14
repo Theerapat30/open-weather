@@ -1,26 +1,35 @@
 package com.trp.open_weather.model
 
-import java.util.Date
+import com.trp.open_weather.utils.makeWord
+import java.time.LocalDateTime
 
-data class Weather(
+data class Weather (
+    val date: LocalDateTime = LocalDateTime.now(),
     val locationName: String,
     val temp: Temp,
     val mainWeather: String,
     val weatherDesc: String,
     val wind: Wind,
-    val rain: Rain,
+//    val rain: Rain,
     val clouds: Clouds,
-)
+){
+    val dateRepresent get() = "${makeWord(date.dayOfWeek.name)}, ${date.dayOfMonth} ${makeWord(date.month.name)}"
+}
 
 data class Temp(
     val temp: Double,
     val tempFeels: Double,
-    val maxTemp: Double,
-    val minTemp: Double,
-)
+    val tempMax: Double,
+    val tempMin: Double,
+){
+    val tempDisplay get() = "$temp  ํ"
+    val tempFeelsDisplay get() = "$tempFeels  ํ"
+    val maxTempDisplay get() = "$tempMax  ํ"
+    val minTempDisplay get() = "$tempMin  ํ"
+}
 
 data class ForecastTemp(
-    val dateTime: Date,
+    val dateTime: LocalDateTime,
     val day: Double,
     val dayFeelsLike: Double?,
     val night: Double,
