@@ -7,11 +7,13 @@ data class Weather (
     val date: LocalDateTime = LocalDateTime.now(),
     val locationName: String,
     val temp: Temp,
+    val tempForecastList: List<Temp>,
     val mainWeather: String,
     val weatherDesc: String,
     val wind: Wind,
 //    val rain: Rain,
     val clouds: Clouds,
+    val airPollution: AirPollution,
 ){
     val dateRepresent get() = "${makeWord(date.dayOfWeek.name)}, ${date.dayOfMonth} ${makeWord(date.month.name)}"
 }
@@ -21,34 +23,28 @@ data class Temp(
     val tempFeels: Double,
     val tempMax: Double,
     val tempMin: Double,
+    val dateTime: LocalDateTime = LocalDateTime.now()
 ){
     val tempDisplay get() = "$temp  ํ"
     val tempFeelsDisplay get() = "$tempFeels  ํ"
     val maxTempDisplay get() = "$tempMax  ํ"
     val minTempDisplay get() = "$tempMin  ํ"
+    val dayMonthDisplay get() = "${dateTime.dayOfMonth}/${dateTime.monthValue}"
 }
 
-data class ForecastTemp(
-    val dateTime: LocalDateTime,
-    val day: Double,
-    val dayFeelsLike: Double?,
-    val night: Double,
-    val nightFeelsLike: Double?,
-    val evening: Double,
-    val eveningFeelsLike: Double?,
-    val morning: Double,
-    val morningFeelsLike: Double?,
-    val minTemp: Double,
-    val maxTemp: Double
-)
-
 data class AirPollution(
-    val aqi: Int,
+    val aqi: AqiStatus,
     val carbon: Double,
     val ozone: Double,
     val pm25: Double,
     val pm10: Double
-)
+){
+    val aqiDisplay get() = "AQI ${aqi.name}"
+    val carbonDisplay get() = carbon.toString()
+    val ozoneDisplay get() = carbon.toString()
+    val pm25Display get() = "$pm25 uq\\m3"
+    val pm10Display get() = "$pm10 uq\\m3"
+}
 
 data class Wind(
     val speed: Double,

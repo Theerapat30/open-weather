@@ -1,7 +1,9 @@
 package com.trp.open_weather.ui.home
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -25,15 +28,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.trp.open_weather.R
+import com.trp.open_weather.data.airPollutionDummy
 import com.trp.open_weather.data.tempDummy
+import com.trp.open_weather.data.tempForecastDummy
+import com.trp.open_weather.model.AirPollution
 import com.trp.open_weather.model.Temp
 import com.trp.open_weather.ui.theme.MyApplicationTheme
+import com.trp.open_weather.ui.theme.PrimaryColor
 import com.trp.open_weather.ui.theme.PrimaryFontColor
-import com.trp.open_weather.ui.theme.SunnyColor
+import com.trp.open_weather.ui.theme.SecondaryFontColor
 import com.trp.open_weather.ui.theme.Typography
 
 @Composable
-fun TempCompose(
+fun TempPanel(
     modifier: Modifier = Modifier,
     dateString: String,
     temp: Temp
@@ -68,15 +75,15 @@ fun TempCompose(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TempSuffixCompose(imgId = R.drawable.ic_thermometer_minus_24, info = temp.minTempDisplay, suffix = "min")
-            TempSuffixCompose(imgId = null, info = temp.tempFeelsDisplay, suffix = "feels")
-            TempSuffixCompose(imgId = R.drawable.ic_thermometer_add_24, info = temp.minTempDisplay, suffix = "max")
+            TempSuffixItem(imgId = R.drawable.ic_thermometer_minus_24, info = temp.minTempDisplay, suffix = "min")
+            TempSuffixItem(imgId = null, info = temp.tempFeelsDisplay, suffix = "feels")
+            TempSuffixItem(imgId = R.drawable.ic_thermometer_add_24, info = temp.minTempDisplay, suffix = "max")
         }
     }
 }
 
 @Composable
-fun TempSuffixCompose(@DrawableRes imgId: Int?, info: String, suffix: String){
+fun TempSuffixItem(@DrawableRes imgId: Int?, info: String, suffix: String){
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -94,15 +101,125 @@ fun TempSuffixCompose(@DrawableRes imgId: Int?, info: String, suffix: String){
     }
 }
 
+@Composable
+fun TempForecastItem(item: Temp){
+    Card(
+        modifier = Modifier
+            .width(65.dp)
+            .height(110.dp),
+        border = BorderStroke(width = 1.dp, color = Color.Black.copy(alpha = 0.2f)),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent.copy(alpha = 0.025f))
+    ){
+        Column(
+            modifier = Modifier.padding(vertical = 8.dp).fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = item.tempDisplay, color = PrimaryFontColor, style = Typography.bodySmall)
+            Icon(painterResource(R.drawable.ic_pressure_24), contentDescription = null, tint = PrimaryColor)
+            Text(text = item.dayMonthDisplay, color = PrimaryFontColor, style = Typography.bodySmall)
+        }
+    }
+}
+
+@Composable
+fun TempForecastPanel(modifier: Modifier = Modifier, temps: List<Temp>){
+    val state = rememberScrollState()
+    Row(modifier = modifier.scrollable(state = state, orientation = Orientation.Horizontal),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        temps.forEach { item ->
+            TempForecastItem(item)
+        }
+    }
+}
+
+@Composable
+fun AirPollutionItem(label: String, value: String){
+    Card(
+        modifier = Modifier
+            .width(140.dp)
+            .height(45.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent.copy(alpha = 0.04f))
+    ) {
+        Box(modifier = Modifier.fillMaxSize().padding(4.dp)) {
+            Text(text = label, modifier = Modifier.align(Alignment.TopStart), color = SecondaryFontColor, style = Typography.bodySmall)
+            Text(text = value, modifier = Modifier.align(Alignment.BottomCenter), color = SecondaryFontColor, style = Typography.bodyMedium)
+        }
+    }
+}
+
+@Composable
+fun AirPollutionPanel(modifier: Modifier = Modifier, airPollution: AirPollution){
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(airPollution.aqiDisplay, color = PrimaryFontColor, style = Typography.bodySmall)
+        Spacer(Modifier.size(25.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+
+        ) {
+            AirPollutionItem(label = "Ozone", value = airPollution.ozoneDisplay)
+            AirPollutionItem(label = "Carbon", value = airPollution.carbonDisplay)
+        }
+        Spacer(Modifier.size(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            AirPollutionItem(label = "PM 2.5", value = airPollution.pm25Display)
+            AirPollutionItem(label = "PM 10", value = airPollution.pm10Display)
+        }
+    }
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFFBDE3F0)
 @Composable
-fun TempComposePreview(){
+fun TempPanelPreview(){
     val temp = tempDummy
     MyApplicationTheme {
-        TempCompose(
+        TempPanel(
             dateString = "Monday, 09 December",
             temp = temp
         )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFBDE3F0)
+@Composable
+fun TempForecastItemPreview(){
+    val forecastTemp = tempDummy
+    MyApplicationTheme {
+        TempForecastItem(item = forecastTemp)
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFBDE3F0)
+@Composable
+fun AirPollutionPanelPreview(){
+    val airPollution = airPollutionDummy
+    MyApplicationTheme {
+        AirPollutionPanel(airPollution = airPollution)
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFBDE3F0)
+@Composable
+fun AirPollutionItemPreview(){
+    MyApplicationTheme {
+        AirPollutionItem(label = "Ozone", value = "54.36")
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFBDE3F0)
+@Composable
+fun TempForecastPanelPreview(){
+    val temps = tempForecastDummy
+    MyApplicationTheme {
+        TempForecastPanel(modifier = Modifier.fillMaxWidth(), temps = temps)
     }
 }
 

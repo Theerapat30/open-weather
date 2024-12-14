@@ -35,7 +35,7 @@ val SunnySoftColor = Color(0xFFBDE3F0)
 val WindySoftColor = Color(0xFF81C1D8)
 
 val White = Color(0xFFFFFFFF)
-val Black = Color(0xFFFFFFFF)
+val Black = Color(0xFF000000)
 val AlertColor = Color(0xFFC9342A)
 val WarningColor = Color(0xFFF4CE14)
 

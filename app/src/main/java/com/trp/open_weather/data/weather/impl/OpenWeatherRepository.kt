@@ -2,8 +2,10 @@ package com.trp.open_weather.data.weather.impl
 
 import com.trp.open_weather.MyApplication
 import com.trp.open_weather.data.Result
+import com.trp.open_weather.data.airPollutionDummy
 import com.trp.open_weather.data.remote.OpenWeatherApi
 import com.trp.open_weather.data.remote.WeatherData
+import com.trp.open_weather.data.tempForecastDummy
 import com.trp.open_weather.data.weather.WeatherRepository
 import com.trp.open_weather.model.Clouds
 import com.trp.open_weather.model.Temp
@@ -42,8 +44,9 @@ class OpenWeatherRepository @Inject constructor() : WeatherRepository {
                 ),
                 clouds = Clouds(
                     all = result.clouds.all.toDouble()
-                )
-
+                ),
+                airPollution = airPollutionDummy,
+                tempForecastList = tempForecastDummy
             )
         }
         return Result.Success(weather.value!!)

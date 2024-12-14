@@ -94,10 +94,14 @@ internal fun HomeScreen(
                 .padding(horizontal = screenHorizontalPadding, vertical = innerPadding.calculateTopPadding()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TempCompose(
+            TempPanel(
                 dateString = weather.dateRepresent,
                 temp = weather.temp
             )
+            Spacer(modifier = Modifier.size(20.dp))
+            TempForecastPanel(modifier = Modifier.fillMaxWidth(), temps = weather.tempForecastList)
+            Spacer(modifier = Modifier.size(20.dp))
+            AirPollutionPanel(modifier = Modifier.fillMaxWidth(), airPollution = weather.airPollution)
         }
     }
 }
