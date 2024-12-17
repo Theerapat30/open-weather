@@ -99,7 +99,7 @@ internal fun HomeScreen(
                 temp = weather.temp
             )
             Spacer(modifier = Modifier.size(20.dp))
-            TempForecastPanel(modifier = Modifier.fillMaxWidth(), temps = weather.forecastDailyWeatherFromCurrentTime())
+            TempForecastPanel(modifier = Modifier.fillMaxWidth(), temps = weather.forecastWeathersFromCurrentTime())
             Spacer(modifier = Modifier.size(20.dp))
             AirPollutionPanel(modifier = Modifier.fillMaxWidth(), airPollution = weather.airPollution)
         }

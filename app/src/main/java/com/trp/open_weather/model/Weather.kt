@@ -19,7 +19,7 @@ data class Weather (
 ){
     val dateRepresent get() = "${makeWord(date.dayOfWeek.name)}, ${date.dayOfMonth} ${makeWord(date.month.name)}"
 
-    fun forecastDailyWeatherFromCurrentTime(): List<Temp>{
+    fun forecastWeathersFromCurrentTime(): List<Temp>{
         val now = LocalTime.now()
         return tempForecastList.filter { item ->
             isTimeAfterHour(hour = 3, time = now, specificTime = item.dateTime.toLocalTime())
