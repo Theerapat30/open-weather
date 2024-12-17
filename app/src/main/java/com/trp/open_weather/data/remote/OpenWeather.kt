@@ -27,6 +27,9 @@ private val retrofit = Retrofit.Builder()
 interface OpenWeatherService{
     @GET("weather")
     suspend fun getWeather(@Query("q") location: String, @Query("APPID") key: String, @Query("units") units: String = "metric"): WeatherData
+
+    @GET("forecast")
+    suspend fun getForecastWeather(@Query("q") location: String, @Query("appid") key: String, @Query("units") units: String = "metric"): ForecastWeatherData
 }
 
 object OpenWeatherApi{

@@ -73,7 +73,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            fetchWeather("Bangkok")
+            fetchWeather("Chiang Mai")
 
             weatherRepository.observeWeather().collect{ weather ->
                 viewModelState.update { it.copy(weather = weather) }

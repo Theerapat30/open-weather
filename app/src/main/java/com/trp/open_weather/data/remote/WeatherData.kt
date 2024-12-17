@@ -75,4 +75,3 @@ data class Sys(
     val type: Int,
     val id: Int,
 )
-

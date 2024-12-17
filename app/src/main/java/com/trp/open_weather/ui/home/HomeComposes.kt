@@ -117,7 +117,13 @@ fun TempForecastItem(item: Temp){
         ) {
             Text(text = item.tempDisplay, color = PrimaryFontColor, style = Typography.bodySmall)
             Icon(painterResource(R.drawable.ic_pressure_24), contentDescription = null, tint = PrimaryColor)
-            Text(text = item.dayMonthDisplay, color = PrimaryFontColor, style = Typography.bodySmall)
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(text = item.dayMonthDisplay, color = PrimaryFontColor, style = Typography.bodySmall)
+                Text(text = item.time, color = PrimaryFontColor, style = Typography.bodySmall)
+            }
         }
     }
 }
