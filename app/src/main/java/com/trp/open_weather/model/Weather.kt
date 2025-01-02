@@ -51,7 +51,7 @@ data class AirPollution(
 ){
     val aqiDisplay get() = "AQI ${aqi.name}"
     val carbonDisplay get() = carbon.toString()
-    val ozoneDisplay get() = carbon.toString()
+    val ozoneDisplay get() = ozone.toString()
     val pm25Display get() = "$pm25 uq\\m3"
     val pm10Display get() = "$pm10 uq\\m3"
 }
@@ -70,6 +70,7 @@ data class Clouds(
 )
 
 enum class AqiStatus{
+    NA,
     Good,
     Fair,
     Moderate,

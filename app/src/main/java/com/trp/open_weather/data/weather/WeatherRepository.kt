@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherRepository{
 
     suspend fun getWeather(locationName: String): Result<Weather>
+    suspend fun getWeatherLocation(latitude: Double, longitude: Double): Result<Weather>
 
     fun observeWeather() : Flow<Weather?>
 

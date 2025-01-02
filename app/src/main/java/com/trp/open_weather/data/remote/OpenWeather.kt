@@ -28,8 +28,17 @@ interface OpenWeatherService{
     @GET("weather")
     suspend fun getWeather(@Query("q") location: String, @Query("APPID") key: String, @Query("units") units: String = "metric"): WeatherData
 
+    @GET("weather")
+    suspend fun getWeather(@Query("lat") latitude: String, @Query("lon") longitude: String, @Query("APPID") key: String, @Query("units") units: String = "metric"): WeatherData
+
     @GET("forecast")
     suspend fun getForecastWeather(@Query("q") location: String, @Query("appid") key: String, @Query("units") units: String = "metric"): ForecastWeatherData
+
+    @GET("forecast")
+    suspend fun getForecastWeather(@Query("lat") latitude: String, @Query("lon") longitude: String, @Query("appid") key: String, @Query("units") units: String = "metric"): ForecastWeatherData
+
+    @GET("air_pollution")
+    suspend fun getCurrentAirPollution(@Query("lat") latitude: String, @Query("lon") longitude: String, @Query("appid") key: String): AirPollutionData
 }
 
 object OpenWeatherApi{

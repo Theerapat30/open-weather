@@ -1,5 +1,6 @@
 package com.trp.open_weather.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trp.open_weather.data.Result
@@ -71,21 +72,39 @@ class HomeViewModel @Inject constructor(
             viewModelState.value.toUiState()
         )
 
-    init {
-        viewModelScope.launch {
-            fetchWeather("Chiang Mai")
-
-            weatherRepository.observeWeather().collect{ weather ->
-                viewModelState.update { it.copy(weather = weather) }
-            }
-        }
-    }
+//    init {
+//        Log.d("TAG", "HomeViewModel init...")
+//        viewModelScope.launch {
+//            fetchWeather("Bangkok")
+//
+//            weatherRepository.observeWeather().collect{ weather ->
+//                viewModelState.update { it.copy(weather = weather) }
+//            }
+//        }
+//    }
 
     fun fetchWeather(locationName: String){
         viewModelState.update { it.copy(isLoading = true) }
 
         viewModelScope.launch {
             val result = weatherRepository.getWeather(locationName)
+            viewModelState.update {
+                when(result){
+                    is Result.Success -> it.copy(weather = result.data)
+                    is Result.Error -> {
+                        val errorMessage = it.errorMessage + "Something went wrong"
+                        it.copy(errorMessage = errorMessage, isLoading = false)
+                    }
+                }
+            }
+        }
+    }
+
+    fun fetchWeather(latitude: Double, longitude: Double){
+        viewModelState.update { it.copy(isLoading = true) }
+
+        viewModelScope.launch {
+            val result = weatherRepository.getWeatherLocation(latitude = latitude, longitude = longitude)
             viewModelState.update {
                 when(result){
                     is Result.Success -> it.copy(weather = result.data)

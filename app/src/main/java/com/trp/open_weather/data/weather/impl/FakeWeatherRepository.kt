@@ -25,5 +25,14 @@ class FakeWeatherRepository @Inject constructor(): WeatherRepository {
         }
     }
 
+    override suspend fun getWeatherLocation(latitude: Double, longitude: Double): Result<Weather> {
+        delay(800)
+        val fakeWeather = weatherDummy
+        weather.update { fakeWeather }
+        return withContext(Dispatchers.IO){
+            Result.Success(fakeWeather)
+        }
+    }
+
     override fun observeWeather(): Flow<Weather?> = weather
 }
