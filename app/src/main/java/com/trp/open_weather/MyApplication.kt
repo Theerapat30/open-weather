@@ -22,6 +22,6 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class MyApplication : Application(){
     companion object{
-        const val API_KEY = "69a4ded70025da0552029cfce527d0c4"
+        const val API_KEY: String = BuildConfig.API_KEY
     }
 }

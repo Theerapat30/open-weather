@@ -1,3 +1,5 @@
+import java.util.Properties
+
 /*
  * Copyright (C) 2022 The Android Open Source Project
  *
@@ -25,6 +27,14 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+val localProps = Properties()
+val localPropertiesFile = File(rootProject.rootDir, "openweather.properties")
+if (localPropertiesFile.exists() && localPropertiesFile.isFile){
+    localPropertiesFile.inputStream().use {
+        localProps.load(it)
+    }
+}
+
 android {
     namespace = "com.trp.open_weather"
     compileSdk = 35
@@ -37,6 +47,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "com.trp.open_weather.HiltTestRunner"
+        
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -51,6 +62,10 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigField("String", "API_KEY", localProps.getProperty("API_KEY_PRD"))
+        }
+        getByName("debug") {
+            buildConfigField("String", "API_KEY", localProps.getProperty("API_KEY_DEV"))
         }
     }
 
@@ -69,6 +84,7 @@ android {
         buildConfig = false
         renderScript = false
         shaders = false
+        buildConfig = true
     }
 
     packagingOptions {
@@ -123,6 +139,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     // Kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+
+    implementation("com.google.accompanist:accompanist-permissions:0.37.0")
+    implementation("com.google.android.gms:play-services-location:21.1.0")
 
     // Tooling
     debugImplementation(libs.androidx.compose.ui.tooling)
