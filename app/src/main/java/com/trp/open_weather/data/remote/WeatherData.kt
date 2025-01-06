@@ -16,7 +16,7 @@ data class WeatherData(
 //    val rain: Rain,
     val clouds: Clouds,
     val dt: Long,
-    val sys: Sys,
+//    val sys: Sys,
     val timezone: Int,
     val id: Int,
     val name: String,
