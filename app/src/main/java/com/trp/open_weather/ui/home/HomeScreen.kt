@@ -17,12 +17,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,12 +35,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Indicator
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnSuccessListener
@@ -46,6 +51,7 @@ import com.trp.open_weather.model.Weather
 import com.trp.open_weather.ui.theme.MyApplicationTheme
 import com.trp.open_weather.ui.theme.PrimaryColor
 import com.trp.open_weather.ui.theme.PrimaryFontColor
+import com.trp.open_weather.ui.theme.SecondaryColor
 import com.trp.open_weather.ui.theme.SunnyGradientColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -101,6 +107,8 @@ internal fun HomeScreen(
 ){
     val screenHorizontalPadding = 20.dp
 
+    val pullToRefreshState = rememberPullToRefreshState()
+
     Scaffold(
         topBar = {
             Row(
@@ -134,8 +142,18 @@ internal fun HomeScreen(
             isRefreshing = isRefreshing,
             onRefresh = onRefresh,
             modifier = Modifier.fillMaxSize(),
+            state = pullToRefreshState,
+            indicator = {
+                PullToRefreshDefaults.Indicator(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    isRefreshing = isRefreshing,
+                    containerColor = PrimaryColor,
+                    color = SecondaryColor,
+                    state = pullToRefreshState
+                )
+            }
 //            contentAlignment = TODO(),
-//            indicator = TODO()
+
         ) {
             LazyColumn(
                 modifier = Modifier

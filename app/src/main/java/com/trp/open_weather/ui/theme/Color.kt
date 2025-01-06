@@ -40,6 +40,7 @@ val AlertColor = Color(0xFFC9342A)
 val WarningColor = Color(0xFFF4CE14)
 
 val PrimaryColor = White
+val SecondaryColor = SunnyColor
 
 val PrimaryFontColor = White
 val SecondaryFontColor = Black
