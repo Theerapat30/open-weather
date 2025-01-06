@@ -1,6 +1,5 @@
 package com.trp.open_weather.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trp.open_weather.data.Result
@@ -83,6 +82,7 @@ class HomeViewModel @Inject constructor(
 //        }
 //    }
 
+    // Fetch weather from location name
     fun fetchWeather(locationName: String){
         viewModelState.update { it.copy(isLoading = true) }
 
@@ -90,7 +90,7 @@ class HomeViewModel @Inject constructor(
             val result = weatherRepository.getWeather(locationName)
             viewModelState.update {
                 when(result){
-                    is Result.Success -> it.copy(weather = result.data)
+                    is Result.Success -> it.copy(weather = result.data, isLoading = false)
                     is Result.Error -> {
                         val errorMessage = it.errorMessage + "Something went wrong"
                         it.copy(errorMessage = errorMessage, isLoading = false)
@@ -100,6 +100,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    // Fetch weather from position location
     fun fetchWeather(latitude: Double, longitude: Double){
         viewModelState.update { it.copy(isLoading = true) }
 
@@ -107,7 +108,9 @@ class HomeViewModel @Inject constructor(
             val result = weatherRepository.getWeatherLocation(latitude = latitude, longitude = longitude)
             viewModelState.update {
                 when(result){
-                    is Result.Success -> it.copy(weather = result.data)
+                    is Result.Success -> {
+                        it.copy(weather = result.data, isLoading = false)
+                    }
                     is Result.Error -> {
                         val errorMessage = it.errorMessage + "Something went wrong"
                         it.copy(errorMessage = errorMessage, isLoading = false)
