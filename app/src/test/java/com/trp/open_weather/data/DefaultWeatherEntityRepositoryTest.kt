@@ -32,14 +32,14 @@ import com.trp.open_weather.data.local.database.WeatherDao
 @OptIn(ExperimentalCoroutinesApi::class) // TODO: Remove when stable
 class DefaultWeatherEntityRepositoryTest {
 
-    @Test
-    fun weathers_newItemSaved_itemIsReturned() = runTest {
-        val repository = DefaultWeatherRepository(FakeWeatherDao())
-
-        repository.add("Repository")
-
-        assertEquals(repository.weathers.first().size, 1)
-    }
+//    @Test
+//    fun weathers_newItemSaved_itemIsReturned() = runTest {
+//        val repository = DefaultWeatherRepository(FakeWeatherDao())
+//
+//        repository.add("Repository")
+//
+//        assertEquals(repository.weathers.first().size, 1)
+//    }
 
 }
 

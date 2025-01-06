@@ -5,13 +5,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherData(
-    val coord: LatLong,
+    val coord: Coordinate,
     @SerialName("weather")
     val weathers: List<Weather>,
+    val base: String,
     @SerialName("main")
     val tempMain: TempMain,
+    val visibility: Int,
     val wind: Wind,
-
+//    val rain: Rain,
+    val clouds: Clouds,
+    val dt: Long,
+    val sys: Sys,
     val timezone: Int,
     val id: Int,
     val name: String,
@@ -19,7 +24,7 @@ data class WeatherData(
 )
 
 @Serializable
-data class LatLong(val lon: Double, val lat: Double)
+data class Coordinate(val lon: Double, val lat: Double)
 
 @Serializable
 data class Weather(
@@ -54,3 +59,19 @@ data class Wind(
     val deg: Int,
 )
 
+@Serializable
+data class Rain(
+    @SerialName("1h")
+    val hourly: Double
+)
+
+@Serializable
+data class Clouds(
+    val all: Int
+)
+
+@Serializable
+data class Sys(
+    val type: Int,
+    val id: Int,
+)

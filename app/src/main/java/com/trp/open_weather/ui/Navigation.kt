@@ -20,13 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.trp.open_weather.ui.forecast.ForecastScreen
+import com.trp.open_weather.ui.home.HomeScreen
 
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "main") {
-        composable("main") { ForecastScreen() }
+        composable("main") { HomeScreen() }
     }
 }
