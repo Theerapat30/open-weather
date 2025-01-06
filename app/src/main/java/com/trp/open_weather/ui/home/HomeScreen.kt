@@ -73,7 +73,6 @@ fun HomeScreen(
     Log.d("TAG", "HomeScreen uiState...")
 
     val locationListener: OnSuccessListener<Location> = OnSuccessListener<Location>{ location ->
-        Log.d("TAG", "Got location")
         viewModel.fetchWeather(latitude = location.latitude, longitude = location.longitude)
     }
 
@@ -86,7 +85,6 @@ fun HomeScreen(
             isRefreshing = uiState.isLoading
         )
     } else {
-        Log.d("TAG", "last location listening...")
         locationClient.lastLocation.addOnSuccessListener(locationListener)
         Column(
             verticalArrangement = Arrangement.Center,
@@ -152,7 +150,6 @@ internal fun HomeScreen(
                     state = pullToRefreshState
                 )
             }
-//            contentAlignment = TODO(),
 
         ) {
             LazyColumn(
@@ -189,10 +186,8 @@ fun HomeScreenPreview(){
     val onRefresh: () -> Unit = {
         isRefreshing = true
         coroutineScope.launch {
-            Log.d("TAG", "HomeScreen: start refreshing..")
             delay(1500)
             isRefreshing = false
-            Log.d("TAG", "HomeScreen: stop refreshing..")
         }
     }
     MyApplicationTheme {
