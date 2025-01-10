@@ -3,6 +3,7 @@ package com.trp.open_weather.ui.home
 import android.annotation.SuppressLint
 import android.location.Location
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -50,6 +52,7 @@ import com.trp.open_weather.ui.theme.PrimaryColor
 import com.trp.open_weather.ui.theme.PrimaryFontColor
 import com.trp.open_weather.ui.theme.SecondaryColor
 import com.trp.open_weather.ui.theme.SunnyGradientColor
+import com.trp.open_weather.ui.theme.Typography
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -83,12 +86,7 @@ fun HomeScreen(
         )
     } else {
         locationClient.lastLocation.addOnSuccessListener(locationListener)
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("No Data")
-        }
+        NoWeatherDataScreen()
     }
 }
 
@@ -103,6 +101,8 @@ internal fun HomeScreen(
     val screenHorizontalPadding = 20.dp
 
     val pullToRefreshState = rememberPullToRefreshState()
+
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -123,10 +123,10 @@ internal fun HomeScreen(
                     Text(weather.locationName, color = PrimaryFontColor, fontWeight = FontWeight.Bold)
                 }
                 Row {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = { Toast.makeText(context, "Under construction", Toast.LENGTH_SHORT).show() }) {
                         Icon(Icons.Outlined.Search, contentDescription = null, tint = PrimaryColor)
                     }
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = { Toast.makeText(context, "Under construction", Toast.LENGTH_SHORT).show() }) {
                         Icon(Icons.Outlined.Settings, contentDescription = null, tint = PrimaryColor)
                     }
                 }
@@ -170,6 +170,21 @@ internal fun HomeScreen(
                     AirPollutionPanel(modifier = Modifier.fillMaxWidth(), airPollution = weather.airPollution)
                 }
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NoWeatherDataScreen(){
+    Scaffold { innerPadding ->
+        Column(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Loading", style = Typography.headlineMedium)
+            LinearProgressIndicator()
         }
     }
 }
