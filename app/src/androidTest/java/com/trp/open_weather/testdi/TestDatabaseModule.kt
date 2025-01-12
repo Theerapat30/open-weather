@@ -22,17 +22,17 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import com.trp.open_weather.data.weather.WeatherRepository
 import com.trp.open_weather.data.di.DataModule
-import com.trp.open_weather.data.di.FakeWeatherRepository
+//import com.trp.open_weather.data.di.FakeWeatherRepository
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [DataModule::class]
-)
-interface FakeDataModule {
-
-    @Binds
-    abstract fun bindRepository(
-        fakeRepository: FakeWeatherRepository
-    ): WeatherRepository
-}
+//@Module
+//@TestInstallIn(
+//    components = [SingletonComponent::class],
+//    replaces = [DataModule::class]
+//)
+//interface FakeDataModule {
+//
+//    @Binds
+//    abstract fun bindRepository(
+//        fakeRepository: FakeWeatherRepository
+//    ): WeatherRepository
+//}

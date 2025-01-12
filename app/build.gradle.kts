@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.util.Properties
 
 /*
@@ -35,6 +36,12 @@ if (localPropertiesFile.exists() && localPropertiesFile.isFile){
     }
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 android {
     namespace = "com.trp.open_weather"
     compileSdk = 35
@@ -43,8 +50,17 @@ android {
         applicationId = "com.trp.open_weather"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 1000001
+        versionName = "1.0.0.1"
+        val appName = "open-weather"
+        val apkName = "${appName}_$versionName"
+
+        buildOutputs.all {
+            val variantOutputImpl = this as BaseVariantOutputImpl
+            println("output type = ${variantOutputImpl.outputType}")
+            println("output filename = ${variantOutputImpl.outputFileName}")
+            variantOutputImpl.outputFileName = "${apkName}.apk"
+        }
 
         testInstrumentationRunner = "com.trp.open_weather.HiltTestRunner"
         
@@ -60,7 +76,7 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("String", "API_KEY", localProps.getProperty("API_KEY_PRD"))
         }
@@ -87,11 +103,12 @@ android {
         buildConfig = true
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {

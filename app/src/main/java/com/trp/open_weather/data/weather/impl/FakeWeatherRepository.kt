@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FakeWeatherRepository @Inject constructor(): WeatherRepository {
+class FakeWeatherRepository @Inject constructor() : WeatherRepository {
 
     private val weather = MutableStateFlow<Weather?>(null)
 

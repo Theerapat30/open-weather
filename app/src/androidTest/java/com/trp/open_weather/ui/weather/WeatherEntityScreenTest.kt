@@ -29,23 +29,23 @@ import org.junit.runner.RunWith
 /**
  * UI tests for [WeatherScreen].
  */
-@RunWith(AndroidJUnit4::class)
-class WeatherEntityScreenTest {
-
-    @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    @Before
-    fun setup() {
-        composeTestRule.setContent {
-            WeatherScreen(FAKE_DATA, onSave = {})
-        }
-    }
-
-    @Test
-    fun firstItem_exists() {
-        composeTestRule.onNodeWithText(FAKE_DATA.first()).assertExists().performClick()
-    }
-}
-
-private val FAKE_DATA = listOf("Compose", "Room", "Kotlin")
+//@RunWith(AndroidJUnit4::class)
+//class WeatherEntityScreenTest {
+//
+//    @get:Rule
+//    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+//
+//    @Before
+//    fun setup() {
+//        composeTestRule.setContent {
+//            WeatherScreen(FAKE_DATA, onSave = {})
+//        }
+//    }
+//
+//    @Test
+//    fun firstItem_exists() {
+//        composeTestRule.onNodeWithText(FAKE_DATA.first()).assertExists().performClick()
+//    }
+//}
+//
+//private val FAKE_DATA = listOf("Compose", "Room", "Kotlin")

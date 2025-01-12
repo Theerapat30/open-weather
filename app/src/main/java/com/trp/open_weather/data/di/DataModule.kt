@@ -21,7 +21,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.trp.open_weather.data.weather.WeatherRepository
-import com.trp.open_weather.data.weather.impl.FakeWeatherRepository
 import com.trp.open_weather.data.weather.impl.OpenWeatherRepository
 import javax.inject.Singleton
 
@@ -32,7 +31,6 @@ interface DataModule {
     @Singleton
     @Binds
     fun bindWeatherRepository(
-//        weatherRepository: FakeWeatherRepository
         weatherRepository: OpenWeatherRepository
     ): WeatherRepository
 }
