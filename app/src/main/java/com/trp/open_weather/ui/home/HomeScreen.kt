@@ -1,6 +1,7 @@
 package com.trp.open_weather.ui.home
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.location.Location
 import android.util.Log
 import android.widget.Toast
@@ -36,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -82,7 +84,11 @@ fun HomeScreen(
             onRefresh = {
                 locationClient.lastLocation.addOnSuccessListener(locationListener)
             },
-            isRefreshing = uiState.isLoading
+            isRefreshing = uiState.isLoading,
+            versionName = context.packageManager.getPackageInfo(
+                context.packageName,
+                PackageManager.GET_ACTIVITIES
+            ).versionName
         )
     } else {
         locationClient.lastLocation.addOnSuccessListener(locationListener)
@@ -96,13 +102,15 @@ fun HomeScreen(
 internal fun HomeScreen(
     weather: Weather,
     onRefresh: () -> Unit,
-    isRefreshing: Boolean
+    isRefreshing: Boolean,
+    versionName: String? = "unknown"
 ){
     val screenHorizontalPadding = 20.dp
 
     val pullToRefreshState = rememberPullToRefreshState()
 
     val context = LocalContext.current
+
 
     Scaffold(
         topBar = {
@@ -130,6 +138,16 @@ internal fun HomeScreen(
                         Icon(Icons.Outlined.Settings, contentDescription = null, tint = PrimaryColor)
                     }
                 }
+            }
+        },
+        bottomBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 15.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "version: $versionName", color = Color.Gray)
             }
         }
     ) { innerPadding ->
@@ -179,7 +197,9 @@ internal fun HomeScreen(
 fun NoWeatherDataScreen(){
     Scaffold { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
