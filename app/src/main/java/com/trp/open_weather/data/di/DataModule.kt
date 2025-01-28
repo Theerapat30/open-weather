@@ -16,6 +16,9 @@
 
 package com.trp.open_weather.data.di
 
+import com.trp.open_weather.data.forecast.ForecastRepository
+import com.trp.open_weather.data.forecast.impl.FakeForecastRepository
+import com.trp.open_weather.data.forecast.impl.OpenForecastRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -33,4 +36,10 @@ interface DataModule {
     fun bindWeatherRepository(
         weatherRepository: OpenWeatherRepository
     ): WeatherRepository
+
+    @Singleton
+    @Binds
+    fun bindForecastRepository(
+        forecastRepository: OpenForecastRepository
+    ): ForecastRepository
 }

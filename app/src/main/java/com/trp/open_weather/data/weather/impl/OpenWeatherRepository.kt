@@ -57,7 +57,7 @@ class OpenWeatherRepository @Inject constructor() : WeatherRepository {
                         tempFeels = item.main.feelsLike,
                         tempMax = item.main.tempMax,
                         tempMin = item.main.tempMin,
-                        dateTime = utcToDate(item.dt)
+                        dateTime = item.dt
                     )
                 },
                 airPollution = AirPollution(
@@ -105,7 +105,7 @@ class OpenWeatherRepository @Inject constructor() : WeatherRepository {
                         tempFeels = item.main.feelsLike,
                         tempMax = item.main.tempMax,
                         tempMin = item.main.tempMin,
-                        dateTime = utcToDate(item.dt)
+                        dateTime = item.dt
                     )
                 },
                 airPollution = AirPollution(

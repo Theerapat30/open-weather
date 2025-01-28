@@ -5,6 +5,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneOffset
 
 class DateUtilsTest {
 
@@ -50,6 +51,17 @@ class DateUtilsTest {
 
         println("result=$result")
         assertEquals(false,  result)
+    }
+
+    @Test
+    fun dateToUtc_shouldReturnLong() = runTest {
+        val dateUtc: Long = 1733984316L
+        val date = utcToDate(dateUtc)
+
+        val result = dateToUtc(date)
+        println("result=$result")
+
+        assertEquals(dateUtc, result)
     }
 
     @Test

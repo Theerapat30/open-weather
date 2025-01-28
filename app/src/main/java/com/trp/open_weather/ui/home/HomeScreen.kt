@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -48,6 +49,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnSuccessListener
 import com.trp.open_weather.data.weatherDummy
+import com.trp.open_weather.model.Temp
 import com.trp.open_weather.model.Weather
 import com.trp.open_weather.ui.theme.MyApplicationTheme
 import com.trp.open_weather.ui.theme.PrimaryColor
@@ -58,12 +60,15 @@ import com.trp.open_weather.ui.theme.Typography
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@SuppressLint("MissingPermission", "CoroutineCreationDuringComposition",
+@SuppressLint(
+    "MissingPermission",
+    "CoroutineCreationDuringComposition",
     "PermissionLaunchedDuringComposition"
 )
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToForecastWeather: (Temp) -> Unit,
 ){
     val context = LocalContext.current
 
@@ -88,7 +93,8 @@ fun HomeScreen(
             versionName = context.packageManager.getPackageInfo(
                 context.packageName,
                 PackageManager.GET_ACTIVITIES
-            ).versionName
+            ).versionName,
+            onNavigateToForecastWeather = onNavigateToForecastWeather
         )
     } else {
         locationClient.lastLocation.addOnSuccessListener(locationListener)
@@ -103,7 +109,8 @@ internal fun HomeScreen(
     weather: Weather,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
-    versionName: String? = "unknown"
+    versionName: String? = "unknown",
+    onNavigateToForecastWeather: (Temp) -> Unit,
 ){
     val screenHorizontalPadding = 20.dp
 
@@ -111,13 +118,12 @@ internal fun HomeScreen(
 
     val context = LocalContext.current
 
-
     Scaffold(
         topBar = {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = screenHorizontalPadding),
+                    .padding(horizontal = screenHorizontalPadding, vertical = 32.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -183,7 +189,11 @@ internal fun HomeScreen(
                         temp = weather.temp
                     )
                     Spacer(modifier = Modifier.size(20.dp))
-                    TempForecastPanel(modifier = Modifier.fillMaxWidth(), temps = weather.forecastWeathersFromCurrentTime())
+                    TempForecastPanel(
+                        modifier = Modifier.fillMaxWidth(),
+                        temps = weather.forecastWeathersFromCurrentTime(),
+                        onItemSelected = onNavigateToForecastWeather
+                    )
                     Spacer(modifier = Modifier.size(20.dp))
                     AirPollutionPanel(modifier = Modifier.fillMaxWidth(), airPollution = weather.airPollution)
                 }
@@ -223,6 +233,11 @@ fun HomeScreenPreview(){
         }
     }
     MyApplicationTheme {
-        HomeScreen(weather = weather, onRefresh = onRefresh, isRefreshing)
+        HomeScreen(
+            weather = weather,
+            onRefresh = onRefresh,
+            isRefreshing,
+            onNavigateToForecastWeather = {item -> }
+        )
     }
 }
