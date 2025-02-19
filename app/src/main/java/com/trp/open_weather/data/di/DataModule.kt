@@ -16,16 +16,22 @@
 
 package com.trp.open_weather.data.di
 
-import com.trp.open_weather.data.forecast.ForecastRepository
-import com.trp.open_weather.data.forecast.impl.FakeForecastRepository
-import com.trp.open_weather.data.forecast.impl.OpenForecastRepository
+import com.trp.open_weather.BuildConfig
+import com.trp.open_weather.data.CurrentWeatherOpenWeatherRepository
+import com.trp.open_weather.data.CurrentWeatherRepository
+import com.trp.open_weather.data.ForecastWeatherOpenWeatherRepository
+import com.trp.open_weather.data.ForecastWeatherRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.trp.open_weather.data.weather.WeatherRepository
-import com.trp.open_weather.data.weather.impl.OpenWeatherRepository
+import dagger.Provides
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+/*
+    Naming conventions [type of data + Repository]
+*/
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -34,12 +40,28 @@ interface DataModule {
     @Singleton
     @Binds
     fun bindWeatherRepository(
-        weatherRepository: OpenWeatherRepository
-    ): WeatherRepository
+        weatherRepository: CurrentWeatherOpenWeatherRepository
+    ): CurrentWeatherRepository
 
     @Singleton
     @Binds
     fun bindForecastRepository(
-        forecastRepository: OpenForecastRepository
-    ): ForecastRepository
+        forecastRepository: ForecastWeatherOpenWeatherRepository
+    ): ForecastWeatherRepository
+
+}
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class OpenWeatherApiKey
+
+@Module
+@InstallIn(SingletonComponent::class)
+class KeyModule {
+
+    @OpenWeatherApiKey
+    @Provides
+    fun provideOpenWeatherApiKey(): String {
+        return BuildConfig.API_KEY
+    }
 }

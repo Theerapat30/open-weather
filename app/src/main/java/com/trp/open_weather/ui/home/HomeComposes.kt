@@ -28,9 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.trp.open_weather.R
-import com.trp.open_weather.data.airPollutionDummy
-import com.trp.open_weather.data.tempDummy
-import com.trp.open_weather.data.tempForecastDummy
+import com.trp.open_weather.model.airPollutionDummy
+import com.trp.open_weather.model.tempDummy
+import com.trp.open_weather.model.tempForecastDummy
 import com.trp.open_weather.model.AirPollution
 import com.trp.open_weather.model.Temp
 import com.trp.open_weather.ui.theme.MyApplicationTheme

@@ -4,9 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.trp.open_weather.data.ForecastWeatherRepository
 import com.trp.open_weather.data.Result
-import com.trp.open_weather.data.forecast.ForecastRepository
-import com.trp.open_weather.data.weather.WeatherRepository
 import com.trp.open_weather.model.Temp
 import com.trp.open_weather.ui.ForecastWeather
 import com.trp.open_weather.utils.makeWord
@@ -27,7 +26,7 @@ data class ForecastWeatherUiState(
 @HiltViewModel
 class ForecastWeatherViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val forecastRepository: ForecastRepository,
+    private val forecastRepository: ForecastWeatherRepository,
 ) : ViewModel() {
 
     private val forecastWeather = savedStateHandle.toRoute<ForecastWeather>()
@@ -40,7 +39,7 @@ class ForecastWeatherViewModel @Inject constructor(
         uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try{
-                val result = forecastRepository.getForecastWeatherLocation(latitude = latitude, longitude = longitude)
+                val result = forecastRepository.getWeatherByLocation(latitude = latitude, longitude = longitude)
                 uiState.update {
                     when(result){
                         is Result.Success -> {

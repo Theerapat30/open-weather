@@ -1,20 +1,22 @@
-package com.trp.open_weather.data.remote
+package com.trp.open_weather.data.remote.open_weather.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WeatherData(
-    val coord: Coordinate,
+data class WeatherApiModel(
+    val coord: CoordinateApiModel,
     @SerialName("weather")
-    val weathers: List<Weather>,
+    val weatherItemApiModels: List<WeatherItemApiModel>,
     val base: String,
     @SerialName("main")
-    val tempMain: TempMain,
+    val tempMainApiModel: TempMainApiModel,
     val visibility: Int,
-    val wind: Wind,
+    @SerialName("wind")
+    val windApiModel: WindApiModel,
 //    val rain: Rain,
-    val clouds: Clouds,
+    @SerialName("clouds")
+    val cloudsApiModel: CloudsApiModel,
     val dt: Long,
 //    val sys: Sys,
     val timezone: Int,
@@ -24,10 +26,10 @@ data class WeatherData(
 )
 
 @Serializable
-data class Coordinate(val lon: Double, val lat: Double)
+data class CoordinateApiModel(val lon: Double, val lat: Double)
 
 @Serializable
-data class Weather(
+data class WeatherItemApiModel(
     val id: Int,
     val main: String,
     val description: String,
@@ -35,7 +37,7 @@ data class Weather(
 )
 
 @Serializable
-data class TempMain(
+data class TempMainApiModel(
     val temp: Double,
     @SerialName("feels_like")
     val feelsLike: Double,
@@ -54,24 +56,24 @@ data class TempMain(
 )
 
 @Serializable
-data class Wind(
+data class WindApiModel(
     val speed: Double,
     val deg: Int,
 )
 
 @Serializable
-data class Rain(
+data class RainApiModel(
     @SerialName("1h")
     val hourly: Double
 )
 
 @Serializable
-data class Clouds(
+data class CloudsApiModel(
     val all: Int
 )
 
 @Serializable
-data class Sys(
+data class SysApiModel(
     val type: Int,
     val id: Int,
 )

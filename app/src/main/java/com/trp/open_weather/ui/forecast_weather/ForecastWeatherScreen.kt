@@ -37,7 +37,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnSuccessListener
 import com.trp.open_weather.R
-import com.trp.open_weather.data.tempForecastDummy
+import com.trp.open_weather.model.tempForecastDummy
 import com.trp.open_weather.model.Temp
 import com.trp.open_weather.ui.composes.ForecastItem
 import com.trp.open_weather.ui.theme.MyApplicationTheme

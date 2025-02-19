@@ -20,7 +20,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import com.trp.open_weather.data.weather.WeatherRepository
+import com.trp.open_weather.data.repositories.weather.WeatherRepository
 import com.trp.open_weather.data.di.DataModule
 //import com.trp.open_weather.data.di.FakeWeatherRepository
 

@@ -1,13 +1,4 @@
-package com.trp.open_weather.data
-
-import com.trp.open_weather.model.AirPollution
-import com.trp.open_weather.model.AqiStatus
-import com.trp.open_weather.model.Clouds
-import com.trp.open_weather.model.Rain
-import com.trp.open_weather.model.Temp
-import com.trp.open_weather.model.Weather
-import com.trp.open_weather.model.Wind
-import com.trp.open_weather.utils.utcToDate
+package com.trp.open_weather.model
 
 val tempDummy = Temp(
     temp = 14.5,
