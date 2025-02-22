@@ -20,13 +20,32 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.trp.open_weather.ui.forecast_weather.ForecastWeatherScreen
 import com.trp.open_weather.ui.home.HomeScreen
+import kotlinx.serialization.Serializable
+
+@Serializable
+object Home
+@Serializable
+data class ForecastWeather(val dateTime: Long)
 
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
-        composable("main") { HomeScreen() }
+    NavHost(navController = navController, startDestination = Home) {
+        composable<Home> {
+            HomeScreen(
+                onNavigateToForecastWeather = {item ->
+                    navController.navigate(route = ForecastWeather(dateTime = item.dateTime))
+                })
+        }
+        composable<ForecastWeather>{
+            ForecastWeatherScreen(
+                onBackStack = {
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }

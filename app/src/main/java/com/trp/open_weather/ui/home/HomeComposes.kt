@@ -28,9 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.trp.open_weather.R
-import com.trp.open_weather.data.airPollutionDummy
-import com.trp.open_weather.data.tempDummy
-import com.trp.open_weather.data.tempForecastDummy
+import com.trp.open_weather.model.airPollutionDummy
+import com.trp.open_weather.model.tempDummy
+import com.trp.open_weather.model.tempForecastDummy
 import com.trp.open_weather.model.AirPollution
 import com.trp.open_weather.model.Temp
 import com.trp.open_weather.ui.theme.MyApplicationTheme
@@ -102,13 +102,16 @@ fun TempSuffixItem(@DrawableRes imgId: Int?, info: String, suffix: String){
 }
 
 @Composable
-fun TempForecastItem(item: Temp){
+fun TempForecastItem(item: Temp, onItemSelected: (Temp) -> Unit){
     Card(
         modifier = Modifier
             .width(65.dp)
             .height(110.dp),
         border = BorderStroke(width = 1.dp, color = Color.Black.copy(alpha = 0.2f)),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent.copy(alpha = 0.025f))
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent.copy(alpha = 0.025f)),
+        onClick = {
+            onItemSelected(item)
+        }
     ){
         Column(
             modifier = Modifier.padding(vertical = 8.dp).fillMaxSize(),
@@ -121,21 +124,25 @@ fun TempForecastItem(item: Temp){
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = item.dayMonthDisplay, color = PrimaryFontColor, style = Typography.bodySmall)
-                Text(text = item.time, color = PrimaryFontColor, style = Typography.bodySmall)
+                Text(text = item.dayMonthDisplay(), color = PrimaryFontColor, style = Typography.bodySmall)
+                Text(text = item.time(), color = PrimaryFontColor, style = Typography.bodySmall)
             }
         }
     }
 }
 
 @Composable
-fun TempForecastPanel(modifier: Modifier = Modifier, temps: List<Temp>){
+fun TempForecastPanel(
+    modifier: Modifier = Modifier,
+    temps: List<Temp>,
+    onItemSelected: (Temp) -> Unit,
+){
     val state = rememberScrollState()
     Row(modifier = modifier.scrollable(state = state, orientation = Orientation.Horizontal),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         temps.forEach { item ->
-            TempForecastItem(item)
+            TempForecastItem(item = item, onItemSelected = onItemSelected)
         }
     }
 }
@@ -199,7 +206,7 @@ fun TempPanelPreview(){
 fun TempForecastItemPreview(){
     val forecastTemp = tempDummy
     MyApplicationTheme {
-        TempForecastItem(item = forecastTemp)
+        TempForecastItem(item = forecastTemp, onItemSelected = {})
     }
 }
 
@@ -225,7 +232,7 @@ fun AirPollutionItemPreview(){
 fun TempForecastPanelPreview(){
     val temps = tempForecastDummy
     MyApplicationTheme {
-        TempForecastPanel(modifier = Modifier.fillMaxWidth(), temps = temps)
+        TempForecastPanel(modifier = Modifier.fillMaxWidth(), temps = temps, onItemSelected = {})
     }
 }
 

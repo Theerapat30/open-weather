@@ -27,7 +27,6 @@ import com.trp.open_weather.data.local.database.AppDatabase
 import com.trp.open_weather.data.local.database.WeatherDao
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {

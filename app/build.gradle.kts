@@ -50,8 +50,8 @@ android {
         applicationId = "com.trp.open_weather"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1000003
-        versionName = "1.0.0.3"
+        versionCode = 1000100
+        versionName = "1.0.1.0"
         val appName = "open-weather"
         val apkName = "${appName}_$versionName"
 
@@ -170,6 +170,8 @@ dependencies {
     // Local tests: jUnit, coroutines, Android runner
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 
     // Instrumented tests: jUnit rules and runners
 

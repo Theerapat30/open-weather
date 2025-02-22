@@ -1,7 +1,10 @@
 package com.trp.open_weather.model
 
+import com.trp.open_weather.utils.dateToUtc
 import com.trp.open_weather.utils.isTimeAfterHour
 import com.trp.open_weather.utils.makeWord
+import com.trp.open_weather.utils.utcToDate
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -22,7 +25,7 @@ data class Weather (
     fun forecastWeathersFromCurrentTime(): List<Temp>{
         val now = LocalTime.now()
         return tempForecastList.filter { item ->
-            isTimeAfterHour(hour = 3, time = now, specificTime = item.dateTime.toLocalTime())
+            isTimeAfterHour(hour = 3, time = now, specificTime = item.localTime)
         }
     }
 }
@@ -32,14 +35,25 @@ data class Temp(
     val tempFeels: Double,
     val tempMax: Double,
     val tempMin: Double,
-    val dateTime: LocalDateTime = LocalDateTime.now()
+    val dateTime: Long = dateToUtc(LocalDateTime.now())
+//    val dateTime: LocalDateTime = LocalDateTime.now()
 ){
     val tempDisplay get() = "$temp  ํ"
     val tempFeelsDisplay get() = "$tempFeels  ํ"
     val maxTempDisplay get() = "$tempMax  ํ"
     val minTempDisplay get() = "$tempMin  ํ"
-    val dayMonthDisplay get() = "${dateTime.dayOfMonth}/${dateTime.monthValue}"
-    val time get() = "${dateTime.toLocalTime()}"
+
+    fun dayMonthDisplay(): String {
+        val dateTime = utcToDate(dateTime)
+        return "${dateTime.dayOfMonth}/${dateTime.monthValue}"
+    }
+
+    fun time(): String {
+        val dateTime = utcToDate(dateTime)
+        return "${dateTime.toLocalTime()}"
+    }
+
+    val localTime: LocalTime get() = utcToDate(dateTime).toLocalTime()
 }
 
 data class AirPollution(

@@ -2,8 +2,8 @@ package com.trp.open_weather.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.trp.open_weather.data.CurrentWeatherRepository
 import com.trp.open_weather.data.Result
-import com.trp.open_weather.data.weather.WeatherRepository
 import com.trp.open_weather.model.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +54,7 @@ private data class HomeViewModelState(
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val weatherRepository: WeatherRepository
+    private val weatherRepository: CurrentWeatherRepository
 ) : ViewModel(){
 
     private val viewModelState = MutableStateFlow(
